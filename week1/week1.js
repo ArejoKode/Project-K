@@ -6,8 +6,9 @@
 // 給定 n（1<=n<=30），依照規律「印出」正確圖形
 
 const printStars = function (n) {
+  let i                     //忘記宣告!!!
   if (n < 1 || n > 30)
-    return "不是喔，數字不是這樣喔"
+    console.log("不是喔，數字不是這樣喔")
   for (i = 1; i <= n; i++) {
     console.log('*');
   }
@@ -29,13 +30,8 @@ const capitalize = function (str) {
   }
   return str;
 }
-
-
 console.log(capitalize('fuck'));
 console.log(capitalize('~~zasdfadsfick'));
-
-
-
 
 // hw3：反轉字串
 // 給定一個字串，請「印出」反轉之後的樣子（不能使用內建的 reverse 函式）
@@ -62,7 +58,7 @@ const factor = function (n) {
     }
   }
 }
-// factor(12345);
+factor(12345);
 //1
 //3
 //5
@@ -82,7 +78,7 @@ const factor = function (n) {
 //-------------join-------------
 const join = function (arr, sep) {
   let result = '';
-  for (let i = 0; i < arr.length - 1; i++) {
+  for (let i = 0; i < arr.length; i++) {
     result += arr[i];
     if (i !== arr.length - 1) {
       result += sep;
@@ -106,7 +102,7 @@ console.log(repeat('你好嗎?', 5)); //你好嗎?你好嗎?你好嗎?你好嗎?
 // hw7:挑戰題
 // 現在有一個排序好的陣列 arr，裡面的元素都是正整數而且保證不會重複。
 
-// 給你一個數字 n，請寫出一個函式 search 回傳 n 在這個陣列裡面的 index，沒有的話請回傳 -1。
+// 給你一個數字 n，請寫出一個函式 search 回傳 n 在這個陣列裡面的 index，沒有的話請回傳 -1。`
 const search = function (arr, n) {
   let left = 0;
   let right = arr.length - 1;
