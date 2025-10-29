@@ -6,10 +6,10 @@
 // 給定 n（1<=n<=30），依照規律「印出」正確圖形
 
 const printStars = function (n) {
-  let i                     //忘記宣告!!!
+
   if (n < 1 || n > 30)
     console.log("不是喔，數字不是這樣喔")
-  for (i = 1; i <= n; i++) {
+  for (let i = 1; i <= n; i++) {
     console.log('*');
   }
 }
