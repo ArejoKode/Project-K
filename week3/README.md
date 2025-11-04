@@ -1,4 +1,4 @@
-# Week 2 作業：YouTube v3 API 資料抓取
+# Week 3 作業：YouTube v3 API 資料抓取
 
 ## 作業目標
 
