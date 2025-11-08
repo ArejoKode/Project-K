@@ -129,9 +129,9 @@ function getVideoComments(videoId) {
 
 getPlaylistItems('PLFOsu4AVSQgMsu7x8NxD1U8u7IgAUZ_Gj')
 
-searchVideos('貓咪大戰爭');
+searchVideos('貓咪大戰爭')
 
-getVideoStats('yF2esaflQHs');
+getVideoStats('yF2esaflQHs')
 
 getChannelInfo('UCfWfAM6Smiva8NatHCJxhIA')
 
