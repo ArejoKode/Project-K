@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Week2 HTTP 測試頁面</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>留言板（HTTP POST 測試）</h1>
+
+  <form action="https://httpbin.org/post" method="POST">
+    <label>姓名：</label>
+    <input type="text" name="name" placeholder="請輸入姓名" required>
+
+    <label>留言：</label>
+    <textarea name="message" rows="4" placeholder="寫下你的想法..."></textarea>
+
+    <button type="submit">送出留言</button>
+  </form>
+
+  <hr>
+  <p><small>送出後會跳到 httpbin.org 顯示你送出的資料（這就是 HTTP 請求！）</small></p>
+</body>
+
+</html>
