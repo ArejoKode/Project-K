@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>隨機抽獎 API 練習</title>
+  <style>
+    button {
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 300px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🐱喵喵喵~來抽獎 🐱</h1>
+
+  <button class="btn">抽起</button>
+
+  <div class="inner">
+    <h2 class="prizeText"></h2>
+    <img class="prizeImg" src="" alt="">
+  </div>
+
+  <script>
+    const btn = document.querySelector('.btn');
+    const prizeTextEl = document.querySelector('.prizeText'); // 用來顯示文字
+    const prizeImgEl = document.querySelector('.prizeImg'); // 用來顯示圖片
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.textContent = "loading~";
+
+      try {
+        const res = await fetch('https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery');
+        const data = await res.json();
+
+        let text = '';
+        let img = '';
+
+        switch (data.prize) {
+          case "FIRST":
+            text = '恭喜你中頭獎了！日本東京來回雙人遊！';
+            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+            break;
+          case "SECOND":
+            text = '二獎！90 吋電視一台！';
+            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+            break;
+          case "THIRD":
+            text = '恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！';
+            img.src = "https://pixabay.com/photos/youtube-iphone-smartphone-mobile-2617510/";
+            break;
+          case "NONE":
+            text = '銘謝惠顧！';
+            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+            break;
+          default:
+            text = "未知獎項";
+            img = "";
+        }
+
+        // 顯示結果
+        prizeTextEl.textContent = text;
+        prizeImgEl.src = img;
+        prizeImgEl.alt = data.prize;
+
+      } catch (err) {
+        console.error('錯誤:', err);
+        prizeTextEl.textContent = '發生錯誤，請稍後再試 😿';
+        prizeImgEl.src = '';
+        prizeImgEl.alt = '';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "抽起";
+      }
+    });
+  </script>
+</body>
+
+</html>
