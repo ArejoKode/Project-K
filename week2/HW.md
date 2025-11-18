@@ -5,7 +5,7 @@
 ### HTTP是位於應用層的網路傳輸協議，它的主要用途是作為網路中客戶端（例如您的瀏覽器）和伺服器之間進行資料交換的通訊基礎，並基於請求-回應模型：
 ### 請求 (Request)： 客戶端向伺服器發送請求，例如要求獲取一個網頁。
 ### 回應 (Response)： 伺服器接收請求並回傳一個回應，
-### 傳輸的過程:你打開網頁→[HTTP] 產生請求 → "GET /index.html" → [TCP] 把請求切成小包，編號、簽收、重傳→[IP] 加上地址，送上網路公路 → 伺服器收到後用 TCP 拼回 → 交給 HTTP 處理 → [HTTP] 產生回應 → "200 OK + <html>..." → [TCP] 再切成小包、編號、簽收、重傳（**反方向**）→ [IP] 加上地址，送回網路公路 → 瀏覽器收到 → 用 TCP 拼回 → 交給 HTTP 解析 → 顯示網頁
+### 傳輸的過程:你打開網頁→[HTTP] 產生請求 → "GET /index.html" → [TCP] 把請求切成小包，編號、簽收、重傳→[IP] 加上地址，送上網路公路 → 伺服器收到後用 TCP 拼回 → 交給 HTTP 處理 → [HTTP] 產生回應 → "200 OK + <html>..." → [TCP] 再切成小包、編號、簽收、重傳（ **反方向** ）→ [IP] 加上地址，送回網路公路 → 瀏覽器收到 → 用 TCP 拼回 → 交給 HTTP 解析 → 顯示網頁
 ### TCP可以理解為物流大哥，但現階段多使用https協定，多了一個secure，並使用TLS技術來加密確保密碼、信用卡資料等安全性!!
 
 ### Q2 :HTML 與 HTTP 的區別是什麼？
@@ -34,7 +34,7 @@
 ### Q6: 請解釋一個完整的 HTTP Request 包含哪些部分？
 ### ANS:
 ### HTTP Request主要分為三部分**Request Line** → 我要做什麼事？（例：GET /login HTTP/1.1）**Headers** → 我要附帶的資訊（像信封上的寄件人、地址、郵戳）**Body** → 信裡面真正的內容（要送給伺服器的資料）
-### 一:**Request Line**主要由**Method**(get,post,put...)/**URL**(www.google.com)/**HTTP版本**）：指定協定版(HTTP/1.1 或 HTTP/2)
+### 一: **Request Line** 主要由**Method**(get,post,put...)/**URL**(www.google.com)/**HTTP版本**）：指定協定版(HTTP/1.1 或 HTTP/2)
 ### 二:**Headers**用來攜帶額外的「請求資訊」與「客戶端環境描述」。
 ```
 Host: www.example.com 指定主機名稱（HTTP/1.1 必填）
@@ -44,7 +44,7 @@ Content-Type: application/json 若有主體（body），說明內容格式（如
 Authorization: Bearer <token> 用於攜帶驗證資訊
 ```
 ### 三:**Body主體**可選，用於傳送資料(純文字/表單/json物件給伺服器，多見於 POST、PUT）。
-```
+``` js
 {
   "username": "arejo",
   "password": "12345"
@@ -63,9 +63,8 @@ Authorization: Bearer <token> 用於攜帶驗證資訊
 ### ANS:HTTPS = HTTP + TLS(加密技術) 簡單說就是透過加密技術來發Request跟收Response
 
 ### Q10:簡單解釋什麼是 CORS，以及為什麼存在這個限制？
-### ANS:CORS 是瀏覽器基於同源政策的安全機制，用來控制跨域請求，確保只有被允許的來源可以存取伺服器資源。Ex.註冊帳號時可以用line/fb/google註冊 
-### 補充：現代網頁常用 AJAX（fetch）來非同步向伺服器拿資料。
-```js
+### ANS:CORS 是瀏覽器基於同源政策的安全機制，用來控制跨域請求，阻止來自不同來源（origin）的前端程式，避免未經許可就向後端讀取敏感資料，其中只要協定、網域、連接埠、任一個不同，就視為「不同來源」。
+``` js 
 fetch('https://api.example.com/data')
 .then(response => response.json())  
 .then(data => console.log(data))  
