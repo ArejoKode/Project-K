@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>搜尋推文與用戶</title>
+  <style>
+    /* 全域設定 */
+    body {
+      display: flex;
+      flex-direction: column;
+      /* 上下排列 header + main */
+      align-items: center;
+      /* 水平置中整個頁面內容 */
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    /* header 的 tab 按鈕 */
+    .header {
+      display: flex;
+      justify-content: center;
+      /* 水平置中按鈕 */
+      gap: 10px;
+      /* 按鈕間距 */
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      background-color: #eee;
+    }
+
+    .tab.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    /* main 內容區 */
+    .content {
+      display: flex;
+      flex-direction: column;
+      /* 垂直排列 input + result */
+      align-items: center;
+      /* 水平置中內容 */
+      width: 100%;
+      max-width: 500px;
+      /* 限制最大寬度 */
+    }
+
+    /* 搜尋區塊 */
+    .tab-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 讓 input + result 水平置中 */
+      margin-bottom: 20px;
+    }
+
+    /* 輸入框置中 */
+    .tab-content input {
+      width: 80%;
+      padding: 8px;
+      margin-bottom: 10px;
+      text-align: center;
+      /* 文字水平置中 */
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    /* 結果區塊置中 */
+    .tab-content .result {
+      width: 80%;
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <button class="tab active" data-tab="posts">搜尋推文</button>
+    <button class="tab" data-tab="users">搜尋用戶</button>
+  </header>
+
+  <main class="content">
+
+    <!-- 搜尋推文 -->
+    <div class="tab-content" id="posts">
+      <input type="text" placeholder="搜尋推文…">
+      <div class="result">這裡會顯示推文搜尋結果</div>
+    </div>
+
+    <!-- 搜尋用戶 -->
+    <div class="tab-content" id="users" style="display:none;">
+      <input type="text" placeholder="搜尋用戶…">
+      <div class="result">這裡會顯示用戶搜尋結果</div>
+    </div>
+
+  </main>
+
+  <script>
+    // Tab 切換功能
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // 切換按鈕 active
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // 顯示對應內容
+        const target = tab.dataset.tab;
+        tabContents.forEach(content => {
+          if (content.id === target) {
+            content.style.display = 'flex'; // 保持 flex 居中
+          } else {
+            content.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

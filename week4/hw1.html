@@ -7,81 +7,104 @@
   <title>隨機抽獎 API 練習</title>
   <style>
     button {
-      padding: 8px 14px;
+      display: block;
+      margin: 20px auto;
+      padding: 14px 40px;
       cursor: pointer;
     }
 
-    img {
+    h1 {
+      text-align: center;
+    }
+
+    .prizeText {
+      text-align: center;
+      margin: 0 auto;
+
+    }
+
+    .prizeImg {
+      display: block;
+      margin: 10px auto;
       max-width: 300px;
-      border-radius: 8px;
-      margin-top: 10px;
+      max-height: 300px;
     }
   </style>
 </head>
 
 <body>
-  <h1>🐱喵喵喵~來抽獎 🐱</h1>
+  <h1>🐱喵喵喵~來抽獎🐱</h1>
 
   <button class="btn">抽起</button>
-
-  <div class="inner">
-    <h2 class="prizeText"></h2>
-    <img class="prizeImg" src="" alt="">
-  </div>
+  <h2 class="prizeText"></h2>
+  <img class="prizeImg" src="" alt="">
 
   <script>
-    const btn = document.querySelector('.btn');
-    const prizeTextEl = document.querySelector('.prizeText'); // 用來顯示文字
-    const prizeImgEl = document.querySelector('.prizeImg'); // 用來顯示圖片
+    const btn = document.querySelector('.btn')
+    const prizeText = document.querySelector('.prizeText')
+    const prizeImg = document.querySelector('.prizeImg')
+
 
     btn.addEventListener('click', async () => {
-      btn.disabled = true;
-      btn.textContent = "loading~";
-
+      btn.disabled = true
+      btn.textContent = 'Loading...'
       try {
-        const res = await fetch('https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery');
-        const data = await res.json();
+        const res = await fetch('https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery')
+        if (!res.ok) {
+          throw new Error("HTTP狀態碼錯誤:" + res.status);
+        }
 
-        let text = '';
-        let img = '';
+        const data = await res.json()
 
         switch (data.prize) {
           case "FIRST":
-            text = '恭喜你中頭獎了！日本東京來回雙人遊！';
-            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "恭喜你中頭獎了！日本東京來回雙人遊！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2019/07/04/06/35/flight-4315953_1280.jpg"
             break;
           case "SECOND":
-            text = '二獎！90 吋電視一台！';
-            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "二獎！90 吋電視一台！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2016/11/30/08/46/living-room-1872192_1280.jpg"
             break;
           case "THIRD":
-            text = '恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！';
-            img.src = "https://pixabay.com/photos/youtube-iphone-smartphone-mobile-2617510/";
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2017/08/10/03/00/youtube-2617510_1280.jpg"
             break;
           case "NONE":
-            text = '銘謝惠顧！';
-            img.src = "https://pixabay.com/photos/flight-plane-close-look-airplane-4315953/";
+
+            prizeText.textContent = "銘謝惠顧"
+            document.body.style.backgroundColor = 'black'
+            document.body.style.color = 'white'
+            prizeImg.style.display = 'none'
             break;
-          default:
-            text = "未知獎項";
-            img = "";
         }
-
-        // 顯示結果
-        prizeTextEl.textContent = text;
-        prizeImgEl.src = img;
-        prizeImgEl.alt = data.prize;
-
-      } catch (err) {
-        console.error('錯誤:', err);
-        prizeTextEl.textContent = '發生錯誤，請稍後再試 😿';
-        prizeImgEl.src = '';
-        prizeImgEl.alt = '';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "抽起";
       }
-    });
+
+      catch (err) {
+        prizeImg.style.display = 'block'
+        document.body.style.backgroundColor = 'white'
+        document.body.style.color = 'black'
+        console.error('錯誤', err)
+        prizeText.textContent = "😿發生錯誤，請稍後再試😿"
+        prizeImg.src = "https://media.tenor.com/7t63GFnoIPUAAAAM/huh-cat-huh-m4rtin.gif"
+        alert('系統不穩定，請再試一次')
+      }
+      finally {
+        btn.disabled = false
+        btn.textContent = "抽起"
+      }
+    })
+
+
+
   </script>
 </body>
 
