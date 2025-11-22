@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>隨機抽獎 API 練習</title>
+  <style>
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 14px 40px;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .prizeText {
+      text-align: center;
+      margin: 0 auto;
+
+    }
+
+    .prizeImg {
+      display: block;
+      margin: 10px auto;
+      max-width: 300px;
+      max-height: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🐱喵喵喵~來抽獎🐱</h1>
+
+  <button class="btn">抽起</button>
+  <h2 class="prizeText"></h2>
+  <img class="prizeImg" src="" alt="">
+
+  <script>
+    const btn = document.querySelector('.btn')
+    const prizeText = document.querySelector('.prizeText')
+    const prizeImg = document.querySelector('.prizeImg')
+
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true
+      btn.textContent = 'Loading...'
+      try {
+        const res = await fetch('https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery')
+        if (!res.ok) {
+          throw new Error("HTTP狀態碼錯誤:" + res.status);
+        }
+
+        const data = await res.json()
+
+        switch (data.prize) {
+          case "FIRST":
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "恭喜你中頭獎了！日本東京來回雙人遊！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2019/07/04/06/35/flight-4315953_1280.jpg"
+            break;
+          case "SECOND":
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "二獎！90 吋電視一台！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2016/11/30/08/46/living-room-1872192_1280.jpg"
+            break;
+          case "THIRD":
+            prizeImg.style.display = 'block'
+            document.body.style.backgroundColor = 'white'
+            document.body.style.color = 'black'
+            prizeText.textContent = "恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2017/08/10/03/00/youtube-2617510_1280.jpg"
+            break;
+          case "NONE":
+
+            prizeText.textContent = "銘謝惠顧"
+            document.body.style.backgroundColor = 'black'
+            document.body.style.color = 'white'
+            prizeImg.style.display = 'none'
+            break;
+        }
+      }
+
+      catch (err) {
+        prizeImg.style.display = 'block'
+        document.body.style.backgroundColor = 'white'
+        document.body.style.color = 'black'
+        console.error('錯誤', err)
+        prizeText.textContent = "😿發生錯誤，請稍後再試😿"
+        prizeImg.src = "https://media.tenor.com/7t63GFnoIPUAAAAM/huh-cat-huh-m4rtin.gif"
+        alert('系統不穩定，請再試一次')
+      }
+      finally {
+        btn.disabled = false
+        btn.textContent = "抽起"
+      }
+    })
+
+
+
+  </script>
+</body>
+
+</html>
