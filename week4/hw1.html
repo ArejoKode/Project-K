@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>隨機抽獎 API 練習</title>
+
+  <style>
+    .lottery__btn {
+      display: block;
+      margin: 20px auto;
+      padding: 14px 40px;
+      cursor: pointer;
+    }
+
+    .lottery__title {
+      text-align: center;
+    }
+
+    .lottery__result-text {
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .lottery__result-img {
+      display: block;
+      margin: 10px auto;
+      max-width: 300px;
+      max-height: 300px;
+    }
+
+    .lottery__result-img--hidden {
+      display: none !important;
+    }
+
+    .lottery--light {
+      background-color: white;
+      color: black;
+    }
+
+    .lottery--dark {
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="lottery lottery--light">
+
+  <h1 class="lottery__title">🐱喵喵喵~來抽獎🐱</h1>
+
+  <button class="lottery__btn">抽起</button>
+  <h2 class="lottery__result-text"></h2>
+  <img class="lottery__result-img lottery__result-img--hidden"
+    src="https://play-lh.googleusercontent.com/KUNx99mhoD91l9jsdaWNxWme0l_HNMMAnCWJN1RGDhkPR0cEIEBWcnLk3JHs24z3AbbB=w526-h296-rw"
+    alt="連結失敗">
+
+  <script>
+    const btn = document.querySelector('.lottery__btn')
+    const prizeText = document.querySelector('.lottery__result-text')
+    const prizeImg = document.querySelector('.lottery__result-img')
+    const body = document.body
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true
+      btn.textContent = 'Loading...'
+
+      try {
+        const res = await fetch('https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery')
+        if (!res.ok) throw new Error("HTTP狀態碼錯誤:" + res.status)
+        const data = await res.json()
+
+
+        prizeImg.classList.add('lottery__result-img--hidden')
+
+        switch (data.prize) {
+          case "FIRST":
+            prizeText.textContent = "恭喜你中頭獎了！日本東京來回雙人遊！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2019/07/04/06/35/flight-4315953_1280.jpg"
+            prizeImg.classList.remove('lottery__result-img--hidden')
+            body.classList.remove('lottery--dark')
+            body.classList.add('lottery--light')
+            break;
+
+          case "SECOND":
+            prizeText.textContent = "二獎！90 吋電視一台！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2016/11/30/08/46/living-room-1872192_1280.jpg"
+            prizeImg.classList.remove('lottery__result-img--hidden')
+            body.classList.remove('lottery--dark')
+            body.classList.add('lottery--light')
+            break;
+
+          case "THIRD":
+            prizeText.textContent = "恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！"
+            prizeImg.src = "https://cdn.pixabay.com/photo/2017/08/10/03/00/youtube-2617510_1280.jpg"
+            prizeImg.classList.remove('lottery__result-img--hidden')
+            body.classList.remove('lottery--dark')
+            body.classList.add('lottery--light')
+            break;
+
+          case "NONE":
+            prizeText.textContent = "銘謝惠顧"
+            prizeImg.classList.add('lottery__result-img--hidden')
+            body.classList.remove('lottery--light')
+            body.classList.add('lottery--dark')
+            break;
+        }
+      } catch (err) {
+        console.error('錯誤', err)
+        prizeText.textContent = "😿發生錯誤，請稍後再試😿"
+        prizeImg.src = "https://media.tenor.com/7t63GFnoIPUAAAAM/huh-cat-huh-m4rtin.gif"
+        prizeImg.classList.remove('lottery__result-img--hidden')
+        body.classList.remove('lottery--dark')
+        body.classList.add('lottery--light')
+        alert('系統不穩定，請再試一次')
+      } finally {
+        btn.disabled = false
+        btn.textContent = "抽起"
+      }
+    })
+  </script>
+</body>
+
+</html>
