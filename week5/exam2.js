@@ -1,0 +1,26 @@
+const rawData = "990244-1009337,5518069-5608946,34273134-34397466,3636295061-3636388848,8613701-8663602,573252-688417,472288-533253,960590-988421,7373678538-7373794411,178-266,63577667-63679502,70-132,487-1146,666631751-666711926,5896-10827,30288-52204,21847924-21889141,69684057-69706531,97142181-97271487,538561-555085,286637-467444,93452333-93519874,69247-119122,8955190262-8955353747,883317-948391,8282803943-8282844514,214125-236989,2518-4693,586540593-586645823,137643-211684,33-47,16210-28409,748488-837584,1381-2281,1-19";
+const newData = rawData.split(',');
+const newData2 = newData.map(range => {
+  const dataPart = range.split('-');
+  return [Number(dataPart[0]), Number(dataPart[1])];
+})
+const counterCat = function (num) {
+  const str = String(num);
+  if (str.length % 2 !== 0) {
+    return false;
+  }
+  const half = str.length / 2;
+  return str.slice(0, half) === str.slice(half);
+}
+let sum = 0
+
+for (let i = 0; i < newData2.length; i++) {
+  const start = newData2[i][0]
+  const end = newData2[i][1]
+  for (let n = start; n <= end; n++) {
+    if (counterCat(n)) {
+      sum += n;
+    }
+  }
+}
+console.log(sum);
